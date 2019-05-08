@@ -1,0 +1,20 @@
+import styled from 'styled-components/native';
+import { metrics, colors } from '@styles';
+
+export const RootContainer = styled.View`
+  display: flex;
+  height: ${metrics.SCREEN_HEIGHT};
+  width: ${metrics.SCREEN_WIDTH};
+  background-color: ${colors.white};
+  align-items: center;
+  justify-content: center;
+`;
+
+export const FormContainer = styled.View`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: ${metrics.BASE_PADDING}px;
+  padding-bottom: ${2 * metrics.BASE_PADDING}px;
+`;
+

@@ -1,0 +1,39 @@
+import * as React from 'react';
+import { NavigationScreenProps } from 'react-navigation';
+import {
+  RootContainer,
+  FormContainer,
+  NoAccountText,
+  NoAccountTextContainer,
+} from './style';
+import { Input, Button } from '@components';
+
+type IProps = NavigationScreenProps;
+
+class LoginScreen extends React.Component<IProps> {
+
+  navigateToRegister = () => {
+    const { navigation } = this.props;
+    navigation.navigate('Register');
+  }
+
+  render() {
+    return (
+      <RootContainer>
+        <FormContainer>
+          <Input placeholder='E-mail' />
+          <Input placeholder='Senha' />
+        </FormContainer>
+        <Button
+          text='Entrar'
+          onPress={() => console.log('pressed')}
+        />
+        <NoAccountTextContainer onPress={this.navigateToRegister}>
+          <NoAccountText>Não tem conta ? Registre-se aqui.</NoAccountText>
+        </NoAccountTextContainer>
+      </RootContainer>
+    );
+  }
+}
+
+export { LoginScreen };

@@ -1,0 +1,104 @@
+import * as React from 'react';
+import { NavigationScreenProps } from 'react-navigation';
+// redux
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Actions } from '../../redux/actions';
+// interfaces
+import { IReduxState } from '@interfaces/reduxState';
+import { IDispatchToProps, IStateToProps } from '../../interfaces';
+// components
+import { Alert } from 'react-native';
+import {
+  RootContainer,
+  FormContainer,
+  NoAccountText,
+  NoAccountTextContainer,
+} from './styles';
+import { Input, Button } from '@components';
+
+type IProps = NavigationScreenProps & IStateToProps & IDispatchToProps;
+
+interface IState {
+  email: string;
+  password: string;
+}
+
+class LoginScreen extends React.Component<IProps, IState> {
+
+  static navigationOptions = {
+    header: null,
+  };
+
+  state = {
+    email: '',
+    password: ''
+  }
+
+  componentWillReceiveProps(nextProps: IProps) {
+    const { loginSuccess, loginFailure } = nextProps;
+    if (loginSuccess && loginSuccess !== this.props.loginSuccess) {
+      Alert.alert('Logged successfully!');
+    }
+    if (loginFailure && loginFailure !== this.props.loginFailure) {
+      Alert.alert('Error on login!');
+    }
+  }
+
+  handleLoginPress = () => {
+    const { email, password } = this.state;
+    const { tryLoginRequest } = this.props;
+    if(email.length < 6 || password.length < 6 ) {
+      Alert.alert('All fields are required!');
+    } else {
+      tryLoginRequest({ email, password });
+    }
+  }
+
+  navigateToSignUp = () => {
+    const { navigation } = this.props;
+    navigation.navigate('SignUpScreen');
+  }
+
+  render() {
+    const { email, password } = this.state;
+    return (
+      <RootContainer>
+        <FormContainer>
+          <Input
+            placeholder='E-mail'
+            value={email}
+            onChangeText={(text) => this.setState({ email: text })}
+          />
+          <Input
+            placeholder='Password'
+            secureTextEntry
+            value={password}
+            onChangeText={(text) => this.setState({ password: text })}
+          />
+        </FormContainer>
+        <Button
+          text='Login'
+          onPress={this.handleLoginPress}
+        />
+        <NoAccountTextContainer onPress={this.navigateToSignUp}>
+          <NoAccountText>No account ? Sign up here.</NoAccountText>
+        </NoAccountTextContainer>
+      </RootContainer>
+    );
+  }
+}
+
+const mapStateToProps = (state: IReduxState) => ({
+  ...state.auth,
+})
+
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({ ...Actions }, dispatch);
+
+const Connected = connect<IStateToProps, IDispatchToProps>(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginScreen);
+
+
+export { Connected as LoginScreen };

@@ -1,0 +1,69 @@
+import { IGenericErrorAction } from '@interfaces/action';
+import { Action } from 'redux';
+
+export interface IUserLoginInterface {
+  email: string;
+  password?: string;
+}
+
+export interface IUserSignUpInterface {
+  email: string;
+  password: string;
+  name: string;
+}
+
+export interface IUserInterface {
+  email: string;
+  name: string;
+  id: string;
+}
+
+export interface IStateToProps {
+  userData: IUserInterface | null;
+
+  loginLoading: boolean;
+  loginSuccess: boolean | null;
+  loginFailure: boolean | null | string;
+
+  singUpLoading: boolean;
+  singUpSuccess: boolean | null;
+  singUpFailure: boolean | null | string;
+}
+
+export interface IDispatchToProps {
+  tryLoginRequest(user: IUserLoginInterface): ITryLoginRequest;
+  tryLoginSuccess(userData: IUserInterface): ITryLoginSuccess;
+  tryLoginFailure(message: string): IGenericErrorAction;
+
+  signUpRequest(user: IUserSignUpInterface): ISignUpRequest;
+  signUpSuccess(userData: IUserInterface): ISignUpSuccess;
+  signUpFailure(message: string): IGenericErrorAction;
+}
+
+export interface ITryLoginRequest extends Action {
+  type: string;
+  payload: {
+    user: IUserLoginInterface
+  };
+}
+
+export interface ITryLoginSuccess extends Action {
+  type: string;
+  payload: {
+    userData: IUserInterface,
+  };
+}
+
+export interface ISignUpRequest extends Action {
+  type: string;
+  payload: {
+    user: IUserSignUpInterface
+  };
+}
+
+export interface ISignUpSuccess extends Action {
+  type: string;
+  payload: {
+    userData: IUserInterface,
+  };
+}

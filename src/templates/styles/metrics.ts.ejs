@@ -1,0 +1,19 @@
+import { Dimensions } from 'react-native';
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+
+export const metrics = {
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  IS_SMALL_PHONE : SCREEN_WIDTH < 350,
+  IS_SHORT_PHONE : SCREEN_HEIGHT < 600,
+  IS_TALL_PHONE : SCREEN_HEIGHT > 800,
+  BASE_WIDTH : 320,
+  BASE_HEIGHT : 42,
+  BASE_PADDING : 24,
+  FONT_SMALL : 14,
+  FONT_MEDIUM : 24,
+  FONT_LARGE : 32,
+}
+

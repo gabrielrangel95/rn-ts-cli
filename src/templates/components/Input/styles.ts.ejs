@@ -1,0 +1,14 @@
+import styled from 'styled-components/native';
+import { colors, metrics } from '@styles';
+
+export const InputText = styled.TextInput.attrs({
+  placeholderTextColor: colors.black
+})`
+  width: ${metrics.BASE_WIDTH}px;
+  height: ${metrics.BASE_HEIGHT}px;
+  border-bottom-width: 1px;
+  border-color: ${colors.black};
+  border-style: solid;
+  color: ${colors.black};
+  margin-top: ${metrics.BASE_PADDING / 2}px;
+`;

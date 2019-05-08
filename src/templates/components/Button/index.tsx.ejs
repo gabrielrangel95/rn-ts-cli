@@ -1,0 +1,17 @@
+import * as React from 'react';
+import {
+  ButtonContainer,
+  ButtonText
+} from './styles';
+
+interface IProps {
+  text: String;
+  secondary?: boolean;
+  onPress(): void;
+}
+
+export const Button = (props: IProps) => (
+  <ButtonContainer onPress={props.onPress} secondary={props.secondary}>
+    <ButtonText secondary={props.secondary}>{props.text}</ButtonText>
+  </ButtonContainer>
+);

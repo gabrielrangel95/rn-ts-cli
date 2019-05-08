@@ -1,0 +1,48 @@
+import { takeEvery, put, call } from 'redux-saga/effects';
+import { Types } from './types';
+import { ITryLoginRequest, IUserInterface, ISignUpRequest } from '../interfaces';
+import { Actions } from './actions';
+// import { api } from '@config';
+
+
+export function* watchTryLogin() {
+  yield takeEvery(Types.AUTH_TRY_LOGIN_REQUEST, handleTryLogin);
+}
+
+export function* watchSignUp() {
+  yield takeEvery(Types.AUTH_SIGN_UP_REQUEST, handleSignUp);
+}
+
+function* handleTryLogin(action: ITryLoginRequest) {
+  try {
+    const { user } = action.payload;
+    // call example
+    // const response = yield call([api, 'login'], user);
+    const response: IUserInterface = {
+      email: user.email,
+      id: '1',
+      name: 'Example User'
+    }
+    yield put(Actions.tryLoginSuccess(response));
+  } catch (err) {
+    console.log({ ERROR_LOGIN: err });
+    yield put(Actions.tryLoginFailure(err.message ? err.message : err));
+  }
+}
+
+function* handleSignUp(action: ISignUpRequest) {
+  try {
+    const { user } = action.payload;
+    // call example
+    // const response = yield call([api, 'login'], user);
+    const response: IUserInterface = {
+      email: user.email,
+      id: '1',
+      name: user.name
+    }
+    yield put(Actions.signUpSuccess(response));
+  } catch (err) {
+    console.log({ ERROR_SIGN_UP: err });
+    yield put(Actions.signUpFailure(err.message ? err.message : err));
+  }
+}

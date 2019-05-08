@@ -1,0 +1,102 @@
+import * as React from 'react';
+import { NavigationScreenProps } from 'react-navigation';
+// redux
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Actions } from '../../redux/actions';
+// interfaces
+import { IReduxState } from '@interfaces/reduxState';
+import { IDispatchToProps, IStateToProps } from '../../interfaces';
+// components
+import { Alert } from 'react-native';
+import {
+  RootContainer,
+  FormContainer,
+} from './styles';
+
+import { Input, Button } from '@components';
+
+type IProps = NavigationScreenProps & IStateToProps & IDispatchToProps;
+
+interface IState {
+  email: string;
+  password: string;
+  name: string;
+}
+
+class SignUpScreen extends React.Component<IProps, IState> {
+
+  static navigationOptions = {
+    title: 'New account',
+  };
+
+  state = {
+    name: '',
+    email: '',
+    password: ''
+  }
+
+  componentWillReceiveProps(nextProps: IProps) {
+    const { signUpSuccess, signUpFailure } = nextProps;
+    if (signUpSuccess && signUpSuccess !== this.props.signUpSuccess) {
+      Alert.alert('Account create successfully!');
+    }
+    if (signUpFailure && signUpFailure !== this.props.signUpFailure) {
+      Alert.alert('Error creating account!');
+    }
+  }
+
+  handleSignUpPress = () => {
+    const { email, password, name } = this.state;
+    const { signUpRequest } = this.props;
+    if(email.length < 6 || password.length < 6 || name.length < 3 ) {
+      Alert.alert('All fields are required!');
+    } else {
+      signUpRequest({ name, email, password });
+    }
+  }
+
+  render() {
+    const { name, email, password } = this.state;
+    return (
+      <RootContainer>
+        <FormContainer>
+          <Input
+            placeholder='Name'
+            value={name}
+            onChangeText={(text) => this.setState({ name: text })}
+          />
+          <Input
+            placeholder='E-mail'
+            value={email}
+            onChangeText={(text) => this.setState({ email: text })}
+          />
+          <Input
+            placeholder='Password'
+            secureTextEntry
+            value={password}
+            onChangeText={(text) => this.setState({ password: text })}
+          />
+        </FormContainer>
+        <Button
+          text='Sign Up'
+          onPress={this.handleSignUpPress}
+        />
+      </RootContainer>
+    );
+  }
+}
+
+const mapStateToProps = (state: IReduxState) => ({
+  ...state.auth,
+})
+
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({ ...Actions }, dispatch);
+
+const Connected = connect<IStateToProps, IDispatchToProps>(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignUpScreen);
+
+
+export { Connected as SignUpScreen };

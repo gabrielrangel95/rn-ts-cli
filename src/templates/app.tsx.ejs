@@ -1,0 +1,24 @@
+import React, { Component } from 'react';
+import { SafeAreaView } from 'react-navigation';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
+import { AppNavigator, NavigationService } from '@navigation';
+import { persistor, store } from '@redux';
+
+export default class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <SafeAreaView style={{ flex: 1 }}>
+            <AppNavigator
+              ref={navigatorRef => {
+                NavigationService.setTopLevelNavigator(navigatorRef);
+              }}
+            />
+          </SafeAreaView>
+        </PersistGate>
+      </Provider>
+    );
+  }
+}

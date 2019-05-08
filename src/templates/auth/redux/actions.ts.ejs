@@ -1,0 +1,46 @@
+import { Types } from './types';
+import {
+  IDispatchToProps,
+  IUserInterface,
+  IUserLoginInterface,
+  IUserSignUpInterface,
+} from '../interfaces';
+
+export const Actions: IDispatchToProps = {
+  tryLoginRequest: (user: IUserLoginInterface) => ({
+    type: Types.AUTH_TRY_LOGIN_REQUEST,
+    payload: {
+      user
+    }
+  }),
+  tryLoginSuccess: (userData: IUserInterface) => ({
+    type: Types.AUTH_TRY_LOGIN_SUCCESS,
+    payload: {
+      userData,
+    }
+  }),
+  tryLoginFailure: (message: string) => ({
+    type: Types.AUTH_TRY_LOGIN_FAILURE,
+    payload: {
+      message
+    },
+  }),
+  signUpRequest: (user: IUserSignUpInterface) => ({
+    type: Types.AUTH_SIGN_UP_REQUEST,
+    payload: {
+      user,
+    }
+  }),
+  signUpSuccess: (userData: IUserInterface) => ({
+    type: Types.AUTH_SIGN_UP_SUCCESS,
+    payload: {
+      userData,
+    }
+  }),
+  signUpFailure: (message: string) => ({
+    type: Types.AUTH_SIGN_UP_FAILURE,
+    payload: {
+      message
+    },
+  }),
+}
